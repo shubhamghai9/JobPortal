@@ -1,0 +1,41 @@
+# === Build Artifacts ===
+bin/
+obj/
+.vs/
+Properties/
+
+# === Logs ===
+Logs/
+*.log
+
+# === User-specific files ===
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# === IDE and Editor files ===
+.vscode/
+.idea/
+*.swp
+*.tmp
+*.bak
+*.db
+
+# === System files ===
+.DS_Store
+Thumbs.db
+
+# === Application Configuration ===
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json   # ignore all environment-specific files
+!appsettings.json     # allow the base config
+
+# === DotNet Secrets or Certs ===
+*.pfx
+*.snk
+
+# === Others ===
+node_modules/
+.env
