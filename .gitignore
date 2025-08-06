@@ -28,6 +28,7 @@ Thumbs.db
 
 # === Application Configuration ===
 appsettings.Development.json
+appsettings.json
 appsettings.Local.json
 appsettings.*.json   # ignore all environment-specific files
 !appsettings.json     # allow the base config
