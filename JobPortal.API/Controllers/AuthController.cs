@@ -44,7 +44,8 @@ namespace JobPortal.API.Controllers
             return Ok(new
             {
                 Token = accessToken,
-                RefreshToken = refreshToken
+                RefreshToken = refreshToken,
+                user.Role
             });
         }
 

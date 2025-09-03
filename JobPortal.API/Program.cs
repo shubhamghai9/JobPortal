@@ -20,6 +20,20 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowConfiguredOrigins",
+        policy =>
+        {
+            policy.WithOrigins(allowedOrigins)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        });
+});
+
 var columnOptions = new ColumnOptions();
 columnOptions.Store.Remove(StandardColumn.Properties); // optional, reduces clutter
 columnOptions.Store.Add(StandardColumn.LogEvent);      // for full structured logs
@@ -47,7 +61,9 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// Add controllers
+builder.Services.AddScoped<IResumeTextExtractor, ResumeTextExtractor>();
+builder.Services.AddHttpClient<IAiResumeAnalyzer, AiResumeAnalyzer>();
+
 builder.Services.AddControllers();
 builder.Services.AddScoped<TokenService>();
 
@@ -123,6 +139,7 @@ app.UseSwaggerUI(options =>
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
+app.UseCors("AllowConfiguredOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

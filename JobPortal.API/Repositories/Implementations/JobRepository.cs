@@ -14,15 +14,18 @@ namespace JobPortal.API.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<(List<Job> Jobs, int TotalCount)> GetFilteredJobsAsync(string? title, string? location, int pageNumber, int pageSize)
+        public async Task<(List<Job> Jobs, int TotalCount)> GetFilteredJobsAsync(string? search, int pageNumber, int pageSize)
         {
             var query = _context.Jobs.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(title))
-                query = query.Where(j => j.Title.Contains(title));
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var searchLower = search.ToLower();
 
-            if (!string.IsNullOrWhiteSpace(location))
-                query = query.Where(j => j.Location.Contains(location));
+                query = query.Where(j =>
+                    j.Title.ToLower().Contains(searchLower) ||
+                    j.Location.ToLower().Contains(searchLower));
+            }
 
             int totalCount = await query.CountAsync();
 

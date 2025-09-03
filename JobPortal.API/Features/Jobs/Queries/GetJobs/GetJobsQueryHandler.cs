@@ -20,7 +20,7 @@ namespace JobPortal.API.Features.Jobs.Queries.GetJobs
         public async Task<PagedResponse<JobDto>> Handle(GetJobsQuery request, CancellationToken cancellationToken)
         {
             var (jobs, totalCount) = await _jobRepository.GetFilteredJobsAsync(
-                request.Title, request.Location, request.PageNumber, request.PageSize);
+                request.Search, request.PageNumber, request.PageSize);
 
             var jobDtos = _mapper.Map<List<JobDto>>(jobs);
 

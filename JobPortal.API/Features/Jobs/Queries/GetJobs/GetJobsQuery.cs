@@ -6,8 +6,7 @@ namespace JobPortal.API.Features.Jobs.Queries.GetJobs
 {
     public class GetJobsQuery : IRequest<PagedResponse<JobDto>>
     {
-        public string? Title { get; set; }
-        public string? Location { get; set; }
+        public string? Search { get; set; }
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 100;
     }
